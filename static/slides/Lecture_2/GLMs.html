@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Lecture 2: Generalized linear models</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Dr Nemanja Vaci" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <script src="libs/clipboard-2.0.6/clipboard.min.js"></script>
+    <link href="libs/shareon-1.4.1/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon-1.4.1/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain-0.2.6/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain-0.2.6/shareagain.js"></script>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, inverse
+background-image: url("main2.png")
+background-size: contain
+---
+&lt;style type="text/css"&gt;
+body, td {
+   font-size: 15px;
+}
+code.r{
+  font-size: 15px;
+}
+pre {
+  font-size: 20px
+}
+.huge .remark-code { /*Change made here*/
+  font-size: 200% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 80% !important;
+}
+&lt;/style&gt;
+
+## Press record
+
+<style>.shareagain-bar {
+--shareagain-foreground: rgb(255, 255, 255);
+--shareagain-background: rgba(0,0,0,.2);
+--shareagain-linkedin: none;
+--shareagain-pinterest: none;
+--shareagain-pocket: none;
+--shareagain-reddit: none;
+}</style>
+
+---
+
+## Corrections from previous lecture
+1. Intercept in the model with Age
+&lt;br/&gt;
+&lt;br/&gt;
+2. Anova comparison
+
+---
+
+## First meeting exercises (Friday)
+Did you manage to do any of those? 
+
+---
+
+##R code for this lecture
+
+[Link](https://nvaci.github.io/Lecture_2_code/Lecture2_Rcode)
+
+---
+
+## What we know
+.pull-left[
+Gaussian distribution:
+`\(y_{i} \sim \mathcal{N}(\mu_{i},\sigma)\)` &lt;br/&gt; &lt;br/&gt;
+`\(\mu_{i} = \alpha+\beta*x_i\)` &lt;br/&gt;&lt;br/&gt; 
+Model mean and standard deviation &lt;br/&gt; &lt;br/&gt; 
+&lt;br/&gt;
+&lt;br/&gt;
+a) Errors: `\(\mathcal{N}^{iid}(0,\sigma^2)\)` &lt;br/&gt; &lt;br/&gt;
+b) Linearity and additivity &lt;br/&gt; &lt;br/&gt;
+c) Validity &lt;br/&gt; &lt;br/&gt;
+d) Lack of perfect multicolinearity &lt;br/&gt; &lt;br/&gt;
+]
+
+.pull-right[
+&lt;img src="gauss.png", width = "120%"&gt; &lt;br/&gt;
+Google Doodle: Johann Carl Friedrich Gauß’s 241st Birthday
+]
+
+---
+
+## What are these data? 
+.center[
+&lt;img src="image.png", width = "50%"&gt;
+]
+---
+
+## Probability distributions 
+
+Exponential family distribution:  &lt;br/&gt;  
+.pull-left[Continous outcomes: &lt;br/&gt;&lt;br/&gt;
+Categorical outcomes (Yes/No or multiple outcomes):
+&lt;br/&gt;&lt;br/&gt;&lt;br/&gt; 
+Counted outcomes (Success, number of multiple outcomes, occurences in continuous domains): 
+&lt;br/&gt;&lt;br/&gt; &lt;br/&gt; &lt;br/&gt; &lt;br/&gt; 
++reals data (always positive):
+]
+.pull-right[
+Normal (Gaussian) distribution&lt;br/&gt;&lt;br/&gt;
+Bernoulli distribution, Categorical distribution&lt;br/&gt;&lt;br/&gt; &lt;br/&gt;
+
+Binomial distribution, Multinomial distribution, Poisson distribution &lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;
+
+Exponential, Gamma or Inverse Gaussian &lt;br/&gt;&lt;br/&gt;
+]
+---
+## Exponential family
+.center[
+&lt;img src="Exp1.png", width = "90%"&gt; &lt;br/&gt;
+]
+
+---
+## Exponential family
+.center[
+&lt;img src="Exp2.png", width = "90%"&gt; &lt;br/&gt;
+]
+
+---
+## Exponential family
+.center[
+&lt;img src="Exp3.png", width = "90%"&gt; &lt;br/&gt;
+]
+---
+## Exponential family
+.center[
+&lt;img src="Exp4.png", width = "90%"&gt; &lt;br/&gt;
+]
+---
+## Exponential family
+.center[
+&lt;img src="Exp5.png", width = "90%"&gt; &lt;br/&gt;
+]
+???
+We can use all these functions as an outcome in the generalized linear models&lt;br/&gt;
+Poisson - counts with no upper bound &lt;br/&gt;
+Gamma - always positive, time to an event with multiple components (eg. age onset of cancer) &lt;br/&gt;&lt;br/&gt;
+Many of these distributions will converge to Normal: Binomial if the probability is far from edge, Poisson and Gamma if the mean is large - remember central limit theorem&lt;br/&gt;&lt;br/&gt;
+https://en.wikipedia.org/wiki/Exponential_family&lt;br/&gt;&lt;br/&gt;
+https://i.stack.imgur.com/HgpO4.jpg &lt;br/&gt;&lt;br/&gt;
+Check out amazing lectures from Richard McElreath (this lecture uses his idea extensively): [youtube channel](https://www.youtube.com/channel/UCNJK6_DZvcMqNSzQdEkzvzA)
+---
+
+## Binomial distribution
+A coint is flipped 100 times, what is the probability that heads up results in 75 times? &lt;br/&gt;&lt;br/&gt;
+
+Number of successes of n number of independent Bernoulli trials -&gt; Binomial distribution:&lt;br/&gt;&lt;br/&gt; &lt;br/&gt;
+`\(P(X=x)=(^n_x)p^x*(1-p)^{n-x}\)` &lt;br/&gt;&lt;br/&gt;
+`\(\mu=n*p\)` &lt;br/&gt;&lt;br/&gt; `\(\sigma=n*p(1-p)\)`
+---
+
+## Babies
+
+
+```
+## 
+##  0  1 
+## 37 63
+```
+
+
+```r
+par(mfrow=c(1,1), bty='n',mar = c(5, 4, .1, .1), cex=1.1, pch=16)
+plot(1:100,dbinom(1:100,0.63, size=100), xlab='N of babies crawling', ylab='Probability', type='l')
+```
+
+&lt;img src="GLMs_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto 0 auto auto;" /&gt;
+
+---
+
+## Babies
+
+`\(\mu=100*0.63=63\)` &lt;br/&gt;&lt;br/&gt; `\(\sigma=\sqrt(100*0.63*(1-0.63))=4.82\)`
+
+Exactly:
+
+
+```r
+x=75
+choose(100, x)*0.63^x*(1-0.63)^(100-x)
+```
+
+```
+## [1] 0.003470009
+```
+
+At least:
+
+
+```r
+x=64:100
+sum(choose(100, x)*0.63^x*(1-0.63)^(100-x))
+```
+
+```
+## [1] 0.4623385
+```
+
+---
+
+## Logistic regression
+Distribution: &lt;br/&gt;
+`$$y_i \sim Binomial(n,p)$$`
+`$$p=\alpha+\beta*x_i$$`
+--
+
+Map values to [0,1]: &lt;br/&gt;
+`$$f(p) =log(\frac{p}{1-p})$$`
+`$$logit(p)=\alpha+\beta*x_i$$`
+
+
+???
+Our y or the outcome are counts that are following Binomial distribution.&lt;br/&gt;
+What we would like to estimate/model is the probability (p)&lt;br/&gt;
+What would happen if we would model probability using linear regression?&lt;br/&gt;&lt;br/&gt;
+We have these issues:&lt;br/&gt;
+Errors are not necessarily normal &lt;br/&gt;
+Mean and SD are related &lt;br/&gt;
+Linear function is unbounded - does not have to result in a number between 0 and 1 &lt;br/&gt;
+
+---
+
+## First step
+`$$Odds =\frac{p_{i}}{1-p_{i}}$$`
+
+
+
+```
+## Warning: package 'ggplot2' was built under R version 4.1.1
+```
+
+&lt;img src="GLMs_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Second step
+
+`$$logOdds =log(\frac{p_{i}}{1-p_{i}})$$`
+
+&lt;img src="GLMs_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## What is the model doing?
+
+&lt;img src="image3.png", width = "100%"&gt;
+---
+
+## What is the model doing?
+
+&lt;img src="image2a.png", width = "100%"&gt;
+
+---
+
+## Relation between LogOdds and Probabilities
+.center[
+&lt;img src="image4.png", width = "50%"&gt;
+]
+---
+
+## Generalized linear models
+.center[
+&lt;img src="links.png", width = "80%"&gt;
+]
+
+---
+
+## Logistic regression in R
+
+We return back to our crying babies that are motivated to start crawling. 
+
+
+```r
+par(mfrow=c(1,3), bty='n',mar = c(5, 4, .1, .1), cex=1.1, pch=16)
+plot(Babies$Age, Babies$Height, xlab='Age (months)', ylab='Height (cm)')
+boxplot(Babies$Height~Babies$Gender,xlab='Gender', ylab='Height (cm)')
+boxplot(Babies$Age~Babies$Crawl,xlab='Crawl', ylab='Age (months)')
+```
+
+&lt;img src="GLMs_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Logistic regression in R: coefficients
+
+Predict crawling success as a linear function of age
+
+
+```r
+glm1&lt;-glm(Crawl~Age, data=Babies, family=binomial(link='logit'))
+glm1$coefficients
+```
+
+```
+## (Intercept)         Age 
+##  -1.3307752   0.1194777
+```
+&lt;br/&gt;&lt;br/&gt;
+Three ways to interpret logistic regression:&lt;br/&gt;&lt;br/&gt;
+ 1. Logit values&lt;br/&gt;
+ 2. Odds ratios&lt;br/&gt;
+ 3. Probabilities&lt;br/&gt;
+
+---
+
+## Odds ratios
+
+
+```r
+glm1$coefficients
+```
+
+```
+## (Intercept)         Age 
+##  -1.3307752   0.1194777
+```
+
+```r
+exp(glm1$coefficients)
+```
+
+```
+## (Intercept)         Age 
+##   0.2642723   1.1269081
+```
+
+Intercept: When Age is zero (birth), the odds of babies starting to crawl are 74% (1-.26) less likely than not to crawl. 
+
+Age: Babies one month older are 12% more likely to start crawling
+
+---
+
+## Probabilities
+
+`\(\frac{1}{1+exp^{-(\alpha+\beta*x)}}\)`&lt;br/&gt;&lt;br/&gt;
+
+
+```r
+1/(1+exp(1.33078))
+```
+
+```
+## [1] 0.2090304
+```
+
+Intercept: Estimated probability of babies starting to crawl when Age is 0 (birth)&lt;br/&gt;&lt;br/&gt;
+
+Age - we need to look where to evaluate changes on the curve:&lt;br/&gt;
+
+
+
+```r
+1/(1+exp(1.33078-0.11948*10))
+```
+
+```
+## [1] 0.4660573
+```
+
+```r
+arm::invlogit(coef(glm1)[[1]]+coef(glm1)[[2]]*mean(Babies$Age))
+```
+
+```
+## [1] 0.6562395
+```
+
+---
+## Interpretation continued
+
+
+```r
+Babies$LogOdds=-1.33078+0.11948*Babies$Age
+Babies$Odds=exp(Babies$LogOdds)
+Babies$Probs=Babies$Odds/(1+Babies$Odds)
+par(mfrow=c(1,3), bty='n',mar = c(5, 4, .1, .1), cex=1.1, pch=16)
+plot(Babies$Age,Babies$LogOdds)
+plot(Babies$Age, Babies$Odds)
+plot(Babies$Age,Babies$Probs)
+```
+
+&lt;img src="GLMs_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Predicted probability versus outcome
+
+
+```r
+ggplot(data=Babies, aes(x=Age, y=Probs))+geom_point(size=2, col='blue')+geom_point(data=Babies, aes(x=Age, y=Crawl), size=2, col='red')
+```
+
+&lt;img src="GLMs_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Model results
+
+
+```r
+summary(glm1)
+```
+
+```
+## 
+## Call:
+## glm(formula = Crawl ~ Age, family = binomial(link = "logit"), 
+##     data = Babies)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.0687  -0.9876   0.5443   0.8979   1.6082  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -1.33078    0.50868  -2.616 0.008894 ** 
+## Age          0.11948    0.03079   3.880 0.000104 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 131.79  on 99  degrees of freedom
+## Residual deviance: 113.35  on 98  degrees of freedom
+## AIC: 117.35
+## 
+## Number of Fisher Scoring iterations: 3
+```
+???
+[Wald test](https://stats.stackexchange.com/a/60083)
+---
+
+
+## Logistic regression formula
+
+What is missing in this equation? 
+
+`$$log(\frac{p}{1-p})=\alpha+\beta*x_i$$` &lt;br/&gt; &lt;br/&gt;
+
+$$ y = \alpha + \beta * Age + \epsilon $$  &lt;br/&gt;&lt;br/&gt;
+
+--
+
+We do not have an estimation of error: `\(y_i \sim Binomial(n,p)\)`
+
+We do have residuals - estimate of the fit &lt;br/&gt;
+
+`$$residual_i=-2*(y_i-logit^{-1}(\beta*x_i))$$`
+
+---
+
+## Deviance
+
+Goodness of fit: deviance of the fitted model with respect to a perfect model &lt;br/&gt;&lt;br/&gt;
+Null deviance: `\(D=-2*loglik(\beta_0)\)` &lt;br/&gt;&lt;br/&gt;
+Residual deviance: `\(D=-2*loglik(\beta*x)\)` &lt;br/&gt;&lt;br/&gt;
+
+
+```r
+with(glm1, pchisq(null.deviance - deviance, df.null - df.residual, lower.tail = FALSE))
+```
+
+```
+## [1] 1.751679e-05
+```
+
+AIC: `\(-2loglik(\beta*x)+2*npar\)`&lt;br/&gt;&lt;br/&gt;
+BIC: `\(-2loglik(\beta*x)+log(number of observations)*npar\)`
+
+???
+Deviance: Tests whether the model is more accurate than simply always guessing that the outcome will be the more common of the two categories
+---
+## Link functions and other GLMs
+
+We can also use other link functions:  &lt;br/&gt;&lt;br/&gt;
+- Probit: `\(p = \Phi(\beta*x_i)\)`
+- Cauchit
+- log and cloglog (complementary log-log)
+ &lt;br/&gt;&lt;br/&gt; &lt;br/&gt;
+ Most common Generalized linear models:
+ - Poisson regression: traffic, goals in a soccer game &lt;br/&gt;
+ - Negative binomial: same problems but deals with overdispersion &lt;br/&gt;
+ - Gamma regression: reaction times? always positive right skewed data &lt;br/&gt;
+---
+## Absolutely cool things to note 
+
+The question that we are asking is can we stratify the probability of a success in outcome using our predictor variables &lt;br/&gt;&lt;br/&gt;
+
+We are modelling the mean and we do not have an information on individual data points - no error &lt;br/&gt;&lt;br/&gt;
+
+The scale of parameters is different! &lt;br/&gt;&lt;br/&gt;
+
+Parameters are multiplicative - everything interacts especially in the tails of probability distribution &lt;br/&gt;&lt;br/&gt;
+
+Not easy to compare the models - especially if they differ in a more than one predictor - deviance criteria gives you information how well you model fits the mean &lt;br/&gt;
+
+---
+
+class: inverse, middle, center
+# Practical aspect
+---
+
+## Data
+
+NBA dataset: [Link](https://www.kaggle.com/ionaskel/nba-games-stats-from-2014-to-2018)
+
+
+```r
+basketball&lt;-read.table('Basketball.txt',sep='\t', header=T)
+knitr::kable(head(basketball[,c(5,13,18,31,34,43)]), format = 'html')
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Home &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; X3PointShots &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; FreeThrows. &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Opp.3PointShots. &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Opp.FreeThrows. &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Win &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Away &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.529 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.308 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.818 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 32 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Away &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.867 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.323 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.750 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 83 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Home &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.652 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.368 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.769 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 112 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Home &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 12 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.684 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.481 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.941 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 165 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Away &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.769 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.364 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.652 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 196 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Away &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.611 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.500 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.650 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+## Data
+
+
+```r
+table(basketball$Win)
+```
+
+```
+## 
+##  0  1 
+## 69 81
+```
+&lt;img src="GLMs_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Cross tabulation
+
+
+```r
+knitr::kable(table(basketball$Win, basketball$Home), format = 'html')
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Away &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Home &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 43 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 53 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+```r
+datA=aggregate(cbind(basketball$X3PointShots., basketball$Opp.3PointShots., basketball$FreeThrows., basketball$Opp.FreeThrows.), list(basketball$Win), mean)
+names(datA)=c('Win','X3POints_mean','Opp3POints_mean','FreeThrows_mean','OppFreeThrows_mean')
+knitr::kable(datA, format = 'html')
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; Win &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; X3POints_mean &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Opp3POints_mean &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; FreeThrows_mean &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; OppFreeThrows_mean &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3200580 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3914928 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.7498696 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.7724928 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3840494 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3252593 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.7752099 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.7541975 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+## Plot
+
+
+```r
+par(mfrow=c(1,2), bty='n',mar = c(5, 4, .1, .1), cex=1.1, pch=16)
+plot(basketball$X3PointShots.,basketball$Win)
+plot(basketball$X3PointShots.,jitter(basketball$Win, 0.5))
+```
+
+&lt;img src="GLMs_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /&gt;
+---
+
+## Logistic Regression: one predictor
+.tiny[
+
+```r
+baskWL1&lt;-glm(Win~Home, data=basketball, family=binomial('logit'))
+summary(baskWL1)
+```
+
+```
+## 
+## Call:
+## glm(formula = Win ~ Home, family = binomial("logit"), data = basketball)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.4909  -1.0015   0.8935   0.8935   1.3642  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  -0.4290     0.2428  -1.767 0.077296 .  
+## HomeHome      1.1412     0.3410   3.346 0.000819 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 206.98  on 149  degrees of freedom
+## Residual deviance: 195.33  on 148  degrees of freedom
+## AIC: 199.33
+## 
+## Number of Fisher Scoring iterations: 4
+```
+]
+---
+
+## Logistic Regression: two predictors
+.tiny[
+
+```r
+baskWL2&lt;-glm(Win~Home+X3PointShots., data=basketball, family=binomial('logit'))
+summary(baskWL2)
+```
+
+```
+## 
+## Call:
+## glm(formula = Win ~ Home + X3PointShots., family = binomial("logit"), 
+##     data = basketball)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.9950  -1.0185   0.5857   0.9993   1.8696  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)    -2.5847     0.6977  -3.705 0.000212 ***
+## HomeHome        1.1151     0.3568   3.125 0.001779 ** 
+## X3PointShots.   6.1575     1.8229   3.378 0.000731 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 206.98  on 149  degrees of freedom
+## Residual deviance: 182.56  on 147  degrees of freedom
+## AIC: 188.56
+## 
+## Number of Fisher Scoring iterations: 4
+```
+]
+---
+## Model comparison
+
+
+```r
+anova(baskWL1, baskWL2, test = "LR")
+```
+
+```
+## Analysis of Deviance Table
+## 
+## Model 1: Win ~ Home
+## Model 2: Win ~ Home + X3PointShots.
+##   Resid. Df Resid. Dev Df Deviance  Pr(&gt;Chi)    
+## 1       148     195.34                          
+## 2       147     182.56  1   12.773 0.0003516 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+---
+## Logistic Regression: three predictors
+.tiny[
+
+```r
+baskWL3&lt;-glm(Win~Home+X3PointShots.+Opp.3PointShots., data=basketball, family=binomial('logit'))
+anova(baskWL1,baskWL2, baskWL3, test = "LR")
+```
+
+```
+## Analysis of Deviance Table
+## 
+## Model 1: Win ~ Home
+## Model 2: Win ~ Home + X3PointShots.
+## Model 3: Win ~ Home + X3PointShots. + Opp.3PointShots.
+##   Resid. Df Resid. Dev Df Deviance  Pr(&gt;Chi)    
+## 1       148     195.34                          
+## 2       147     182.56  1   12.773 0.0003516 ***
+## 3       146     166.93  1   15.635 7.683e-05 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+
+```r
+baskWL4&lt;-glm(Win~Home*X3PointShots.+Opp.3PointShots., data=basketball, family=binomial('logit'))
+anova(baskWL3, baskWL4, test = "LR")
+```
+
+```
+## Analysis of Deviance Table
+## 
+## Model 1: Win ~ Home + X3PointShots. + Opp.3PointShots.
+## Model 2: Win ~ Home * X3PointShots. + Opp.3PointShots.
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
+## 1       146     166.93                     
+## 2       145     166.85  1 0.078666   0.7791
+```
+]
+---
+## Visualising results
+
+
+```r
+basketball$Prob_mod2=predict(baskWL2, type='response')
+ggplot(data=basketball, aes(x=X3PointShots., y=Prob_mod2, colour=Home))+geom_point(size=2)+geom_point(data=basketball, aes(x=X3PointShots., y=Win), size=2, col='blue')
+```
+
+&lt;img src="GLMs_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+## Visualising results
+
+
+```r
+basketball$Prob_mod3=predict(baskWL3, type='response')
+ggplot(data=basketball, aes(x=X3PointShots., y=Prob_mod3, colour=Home))+geom_point(size=2)+geom_point(data=basketball, aes(x=X3PointShots., y=Win), size=2, col='blue')
+```
+
+&lt;img src="GLMs_files/figure-html/unnamed-chunk-27-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Confidence intervals and R2
+
+
+```r
+confint(baskWL3)
+```
+
+```
+## Waiting for profiling to be done...
+```
+
+```
+##                        2.5 %    97.5 %
+## (Intercept)       -2.0130842  1.684825
+## HomeHome           0.3598188  1.847523
+## X3PointShots.      3.0259724 10.586459
+## Opp.3PointShots. -11.2785830 -3.544063
+```
+
+
+```r
+require(DescTools)
+PseudoR2(baskWL3, which='McFadden')
+```
+
+```
+##  McFadden 
+## 0.1935245
+```
+
+```r
+PseudoR2(baskWL3, which='Nagelkerke')
+```
+
+```
+## Nagelkerke 
+##  0.3131498
+```
+
+[Pseudo R2 formulas](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faq-what-are-pseudo-r-squareds/)
+---
+
+## Model check
+
+
+```r
+Ctabs&lt;-table(basketball$Win,basketball$Prob_mod3&gt;0.5)
+Ctabs
+```
+
+```
+##    
+##     FALSE TRUE
+##   0    47   22
+##   1    19   62
+```
+
+Recall: `\(\frac{true positive}{true positive+false negatives}=\frac{62}{62+19}=0.76\)` &lt;br/&gt;&lt;br/&gt;
+Precision: `\(\frac{true positives}{true poisitives + false positives}=\frac{62}{62+22}=0.73\)`&lt;br/&gt;&lt;br/&gt;
+F1 score: `\(2*\frac{Precision * Recall}{Precision+Recall} = 0.74\)`
+???
+https://en.wikipedia.org/wiki/Precision_and_recall
+---
+## Important aspects: theory
+
+- How do we use linear model with the non-normal outcomes (link functions) &lt;br/&gt;&lt;br/&gt;
+- What are logit values, how do we get to them &lt;br/&gt;&lt;br/&gt;
+- How to interpret logistic regression: logits, odds, and probabilities&lt;br/&gt;&lt;br/&gt;
+- What is deviance of the model and AIC 
+
+---
+## Important aspects: practice
+
+- Building a logistic model &lt;br/&gt;&lt;br/&gt;
+- Predicting values from logistic model &lt;br/&gt;&lt;br/&gt;
+- Transforming logit values to odds and to probabilities&lt;br/&gt;&lt;br/&gt;
+- Comparing models using deviance, anova function or AIC information&lt;br/&gt;&lt;br/&gt;
+- Cross-tabulating model predictions with observed data
+
+---
+## Literature
+
+Chapter 5 of "Data Analysis Using Regression and Multilevel/Hierarchical Models" by Andrew Gelman and Jennifer Hill  &lt;br/&gt;
+
+Chapter 10 of "Statistical Rethinking: A Bayesian Course with Examples in R and Stan " by Richard McElreath + check out his youtube channel
+
+Jaeger, F. (2008). Categorical data analysis: Away from ANOVAs (transformation or not) and towards logit mixed models. Journal of Memory and Language, 59, 434-446. 
+
+---
+
+# Thank you for your attention
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"ratio": "16:9",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

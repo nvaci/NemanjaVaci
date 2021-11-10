@@ -1,0 +1,29 @@
+  [[main]]
+  name = "Posts"
+  weight = 200
+  identifier = "posts"
+  url = "/posts/"
+
+  [[main]]
+  name = "About"
+  weight = 100
+  identifier = "about"
+  url = "/about/"
+
+  [[main]]
+  name = "Advanced Stats Course"
+  weight = 300
+  identifier = "Advanced Stats Course"
+  url = "/Advanced Stats Course/"
+
+  [[main]]
+  name = "Supervision"
+  weight = 400
+  identifier = "supervision"
+  url = "/supervision/"
+
+  [[footer]]
+  name = "imprint"
+  weight = 1
+  identifier = "imprint"
+  url = "/imprint/"

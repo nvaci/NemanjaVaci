@@ -1,0 +1,59 @@
+
+title = "Nemanja Vaci"
+author = "Nemanja Vaci"
+#copyright = "2020-2021"
+profilePicture = "images/image17.png"
+keywords = ""
+favicon = "favicons/favicon.png"
+# example ["css/custom.css"]
+customCss = []
+# example ["js/custom.js"]
+customJs = [] 
+mainSections = ["posts",'Advanced Stats Course']
+images = ["images/site-feature-image.png"]
+doNotLoadAnimations = false
+# Google Fonts
+#googleFonts = ["Indie+Flower", "Roboto:ital,wght@0,100;0,400;0,700;1,400"]
+# Google Site Verify
+#googleSiteVerify = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+singleDateFormat = "2/1/2006"
+indexDateFormat = "2/1/2006"
+listDateFormat = "2/1/2006"
+# Commento Comments
+# CommentoURL = "https://commento.example.com/js/commento.js"
+# Read More links for truncated summaries
+# readMore = true
+# postSectionName = "Website"
+
+
+[simpleAnalytics]
+# enable = true
+# customurl = "https://analytics.example.com"
+
+## Math settings
+[math]
+enable = false  # options: true, false. Enable math support globally, default: false. You can always enable math on per page.
+use = "katex"  # options: "katex", "mathjax". default is "katex".
+
+## Social links
+# use 'fab' when brand icons, use 'fas' when standard solid icons.
+
+[[socialIcons]]
+icon = "fab fa-researchgate"
+title = "Researchgate"
+url = "https://www.researchgate.net/profile/Nemanja-Vaci"
+
+[[socialIcons]]
+icon = "fab fa-github"
+title = "GitHub"
+url = "https://github.com/nvaci"
+
+[[socialIcons]]
+icon = "fab fa-twitter"
+title = "Twitter"
+url = "https://twitter.com/nemanja_vaci"
+
+[[socialIcons]]
+icon = "fas fa-envelope"
+title = "e-mail"
+url = "mailto:n.vaci@sheffield.ac.uk"

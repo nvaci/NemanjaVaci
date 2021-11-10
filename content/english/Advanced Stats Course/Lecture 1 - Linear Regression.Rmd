@@ -1,0 +1,10 @@
+---
+title: "Lecture 1: Linear Regression"
+author: "Nemanja Vaci"
+date: "2020-02-12"
+output: html_document
+---
+
+```{r, echo=FALSE}
+knitr::include_url("http://localhost:4321/slides/Lecture_1/Index.html#1")
+```

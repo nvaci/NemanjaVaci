@@ -1,0 +1,10 @@
+---
+title: "Lecture 5: Mixed-effect models"
+author: "Nemanja Vaci"
+date: "2020-03-13"
+output: html_document
+---
+
+```{r, echo=FALSE}
+knitr::include_url("http://localhost:4321/slides/Lecture_5/Mixed-effect.html#1")
+```

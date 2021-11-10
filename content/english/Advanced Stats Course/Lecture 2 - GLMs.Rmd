@@ -1,0 +1,10 @@
+---
+title: "Lecture 2: Generalized linear models"
+author: "Nemanja Vaci"
+date: "2020-02-19"
+output: html_document
+---
+
+```{r, echo=FALSE}
+knitr::include_url("http://localhost:4321/slides/Lecture_2/GLMs.html#1")
+```
