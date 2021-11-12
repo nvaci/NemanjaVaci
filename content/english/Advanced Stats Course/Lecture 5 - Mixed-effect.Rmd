@@ -6,5 +6,10 @@ output: html_document
 ---
 
 ```{r, echo=FALSE}
-knitr::include_url("http://localhost:4321/slides/Lecture_5/Mixed-effect.html#1")
+knitr::include_url("http://nemanjavaci.netlify.app/slides/Lecture_5/Mixed-effect.html#1")
 ```
+
+To open full screen with rendered math expressions: </br>
+Press __c__ to clone the slides to a new browser window</br>
+Press __f__ to open full screen</br>
+Press __p__ to enter presenter mode - additional links and explanations
