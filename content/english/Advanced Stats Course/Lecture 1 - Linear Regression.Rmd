@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r, echo=FALSE}
-knitr::include_url("http://nemanjavaci.netlify.app/slides/Lecture_1/Index.html#1")
+knitr::include_url("https://nvaci.github.io/Lecture_1/Index.html#1")
 ```
 
 To open full screen with rendered math expressions: </br>
