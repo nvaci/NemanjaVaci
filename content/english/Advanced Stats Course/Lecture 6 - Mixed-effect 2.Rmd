@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r, echo=FALSE}
-knitr::include_url("https://nvaci.github.io/Lecture_6/Mixed-effect2.html#1")
+knitr::include_url("https://nvaci.github.io//Lecture_6//Mixed-effect2.html#1")
 ```
 
 To open full screen with rendered math expressions: </br>
