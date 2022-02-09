@@ -1,5 +1,5 @@
 ---
-title: "Lecture 1: Linear Regression"
+title: "Lecture 1: Linear Regression (2022)"
 author: "Nemanja Vaci"
 date: "2022-02-11"
 output: html_document
