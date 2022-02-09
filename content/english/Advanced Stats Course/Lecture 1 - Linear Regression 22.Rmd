@@ -1,12 +1,12 @@
 ---
-title: "Lecture 1: Linear Regression(2022)"
+title: "Lecture 1: Outline and linear model"
 author: "Nemanja Vaci"
 date: "2022-02-11"
 output: html_document
 ---
 
 ```{r, echo=FALSE}
-knitr::include_url("https://nvaci.github.io/22Lecture1/Week1.html#2")
+knitr::include_url("https://nvaci.github.io/22Lecture1/Week1.html#1")
 ```
 
 To open full screen with rendered math expressions: </br>
