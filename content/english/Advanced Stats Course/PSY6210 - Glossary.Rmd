@@ -8,3 +8,5 @@ output: html_document
 ```{r, echo=FALSE}
 knitr::include_url("https://nvaci.github.io/PSY6210-Glossary/PSY6210---Glossary.html")
 ```
+
+Full screen: https://nvaci.github.io/PSY6210-Glossary/PSY6210---Glossary.html
