@@ -1,0 +1,12 @@
+---
+title: "Lecture 1 - Module outlook and linear regression"
+author: "Nemanja Vaci"
+date: "2022-02-10"
+output: html_document
+---
+
+```{r, echo=FALSE}
+knitr::include_url("https://nvaci.github.io/22Lecture1/Week1.html#1")
+```
+
+Link: https://nvaci.github.io/22Lecture1/Week1.html#1
