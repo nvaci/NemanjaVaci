@@ -1,7 +1,7 @@
 ---
 title: "Lecture 3 - Structural equation modelling (path)"
 author: "Nemanja Vaci"
-date: "2022-02-23"
+date: "2022-02-22"
 output: html_document
 ---
 
