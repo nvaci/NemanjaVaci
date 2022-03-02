@@ -1,0 +1,17 @@
+---
+title: "Lecture 3 - Structural equation modelling (CFA)"
+author: "Nemanja Vaci"
+date: "2022-03-02"
+output: html_document
+---
+
+```{r, echo=FALSE}
+knitr::include_url("https://nvaci.github.io/22Lecture_4/Week4.html#1")
+```
+
+To open full screen:
+Click on the presentation </br>
+Press __c__ to clone the slides to a new browser window</br>
+Press __f__ to open full screen</br>
+Press __p__ to enter presenter mode - additional links and explanations </br>
+Or you can follow this link: https://nvaci.github.io/22Lecture_4/Week4.html#1
