@@ -17,8 +17,14 @@
   url = "/Advanced Stats Course/"
 
   [[main]]
-  name = "Supervision"
+  name = "Projects"
   weight = 400
+  identifier = "projects"
+  url = "/projects/"
+
+  [[main]]
+  name = "Supervision"
+  weight = 500
   identifier = "supervision"
   url = "/supervision/"
 
