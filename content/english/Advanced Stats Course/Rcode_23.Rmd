@@ -1,0 +1,12 @@
+---
+title: "R code - 2023"
+author: "Nemanja Vaci"
+date: "2023-03-02"
+output: html_document
+---
+
+```{r, echo=FALSE}
+knitr::include_url("https://nvaci.github.io/Rcode_2023/RCode.html")
+```
+
+Full screen: https://nvaci.github.io/Rcode_2023/RCode.html
