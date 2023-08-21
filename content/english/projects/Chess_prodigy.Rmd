@@ -1,8 +1,26 @@
 ---
 title: "Chess Prodigy"
 author: "Nemanja Vaci"
-date: "2022-08-01"
+date: "2023-08-20"
 output: html_document
 ---
 
-Information to be added
+__Investigations into the Factors Underlying and Influencing Skill Acquisition, as Demonstrated by Emma Raducanu in Tennis and Magnus Carlsen on the Chessboard, Have a Long History in Psychology.__
+
+Research on the development of expertise argues that practice, especially deliberate practice, largely accounts for these achievements. Practitioners who engage in extensive practice, embrace challenges, and utilize immediate and detailed feedback on their performance develop a faster and higher level of domain-related performance (Ericsson, Krampe, & Tesch-Römer, 1993). Outstanding performance is also positively correlated with individuals' general intellectual capacity, i.e., intelligence (Grabner, 2014). These two factors converge to enable the highest levels of performance - more proficient practitioners acquire skills faster with the same amount of practice (Vaci et al., 2019).
+
+In addition to practice and innate abilities, a significant amount of time invested in expertise development (Simon & Chase, 1973) during critical periods (Bloom, 1985), such as childhood and teenage years, also influences skill development. Studies estimate that practitioners need at least a decade of extensive investment in their domain of expertise to reach such a performance level. However, changes in learning methodologies, particularly computer-supported learning (Strittmatter, 2020), have introduced the possibility that the level of expert behavior and knowledge could be attained more rapidly and at an earlier stage in life.
+
+In this study, we intend to conduct an in-depth examination of an exemplary instance of extraordinary skill development. We will explore the factors that facilitated and influenced the skill development process in the case of the world's youngest chess grandmaster, who attained this prestigious title at the age of __12 years, 4 months, and 25 days__. Contrasting with the conventional 10-year rule for expertise development as established in prior research, our estimation suggests that he required approximately __7 years__ to achieve this remarkable level of performance.
+
+The study will employ a mixed research design. Our approach will encompass a blend of questionnaires aimed at gauging the types and frequency of practice, deliberate practice activities, the progression of ratings (indicative of performance levels) over time, motivation, personality traits, and numerical and figural abilities. This quantitative data will be supplemented by semi-structured interviews that delve into the practice content. These interviews will involve the primary study participant (the grandmaster), their family, and the chess coach.
+
+The study is receiving support from Chessable (https://www.chessable.com/), our research partner in this endeavor.
+
+The research assistant on the study is Daisy Matthews, see short biography:  
+
+Daisy Matthews 
+
+Quantitative Social Science (BA) 
+
+I am a graduate Quantitative Social Science student who is now working as a research assistant on this project. Throughout my studies, I had an interest in social processes and connections which accumulated into my advanced research project on the relationship between social trust and social media. I enjoy the outdoors, coffee and playing the trumpet and am also looking forward to picking up more hobbies outside of University. I am excited to be a part of this project, to watch it evolve and the outcomes we will come to! 
