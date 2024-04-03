@@ -1,0 +1,10 @@
+---
+title: "Chess Prodigy: blog post"
+author: "Nemanja Vaci"
+date: "2024-04-03"
+output: html_document
+---
+
+__The Profile Analysis of the Youngest GM in Chess, Abhimanyu Mishra.__
+
+In the realm of human achievement, there exists a rare and captivating phenomenon - the emergence of child prodigies. These individuals defy expectations, showcasing unparalleled abilities in areas ranging from music and mathematics to art and science. The term child prodigy conjures images of youthful virtuosos effortlessly playing complex compositions, solving mathematical equations, or creating works of art that defy the limitations of their age. Yet, behind these remarkable displays of talent lie factors that support and enable the manifestation and development of extraordinary abilities. In collaboration with the Chessable platform, we embarked on a project to investigate the interplay of these factors and how they gave rise to the youngest grandmaster in chess, GM Abhimanyu Mishra. Read more here: [link](https://www.chess.com/blog/Chessable/the-profile-analysis-of-the-youngest-gm-in-chess-abhimanyu-mishra)
