@@ -1,0 +1,26 @@
+---
+title: "Beyond Big Data - Experiments"
+author: "Nemanja Vaci"
+date: "2024-11-04"
+output: html_document
+---
+
+# Big Data
+
+Throughout my scientific career, I have worked extensively with large observational datasets, ranging from NHS Electronic Health Records to decisions made in chess games. The vast number of analytical choices involved in studying such data is limited only by creativity and theoretical knowledge. Initially, I was comfortable with the correlational or non-causal interpretations of my findings. However, my time at the Department of Psychiatry, University of Oxford, provided a transformative opportunity to engage with colleagues from diverse educational backgrounds, including economics, political science, engineering, and natural language processing. These interactions significantly broadened my perspective, particularly in appreciating innovative approaches to extracting more controlled and insightful conclusions from large-scale data. This study was the first attempt at joining my usual big data approaches and ways to control for the tested effects. <br/>
+  
+## Gaming and Experiments
+  
+Games are extraordinary tools—multidimensional environments carefully designed to evoke enjoyment, challenge, and a sense of achievement. Beyond their entertainment value, they provide a unique lens for studying cognitive processes, decision-making, and emotional responses. In this study, we explored an innovative approach to bridge the methodological gap between experimental paradigms and observational data collected in digital environments. Using a modified game setting, we introduced additional information during critical gameplay moments to a subset of players, assessing the impact of this intervention on various in-game outcomes. These ranged from skill-relevant metrics, such as the number of deaths and acquired scores, to broader game outcomes like dropout rates. <br/><br/>
+
+To examine the effects of these manipulations on player behavior, we collaborated with SUMO Digital Academy (https://www.sumo-academy.com/) in Sheffield, United Kingdom. Our platform was Zool Redimensioned, a reimagined version of the classic Zool: Ninja of the Nth Dimension, originally released for the Amiga in 1992. In Zool, players control a gremlin ninja navigating seven worlds, each comprising four levels, culminating in a boss fight (see Figure 1). This collaboration provided a rich dataset for analyzing the intersection of game design and player behavior, offering valuable insights into the cognitive and emotional drivers of gaming engagement. <br/> <br/>
+
+![Zool Redimensioned](/images/Picture1.jpg)
+
+Main manipulation was a warning system when on the last health bar. Once on the final health bar, the experimental group (i.e. play-ers with the enabled warning system) received an additional signal coming from their controller and screen indicating that they needed to be extra careful and avoid death. <br/> <br/>
+
+We demonstrate that players respond to the additional signal provided by the warning system, although this does not lead to changes in their overall playstyle. Players in the experimental group do not avoid instances where they are down to their last health bar or collect more health bars. However, they exhibit a higher number of controller inputs per second when on their last health bar, suggesting heightened engagement or responsiveness. <br/> <br/>
+
+Similarly, measures of skill acquisition, such as the number of deaths and achieved scores per level, indicate that the warning manipulation does not significantly influence how players optimize their progression through the levels. Notably, though, the warning system reduces the likelihood of players discontinuing their exploration of the game after experiencing a "game over" event—losing all their lives and having to repeat the world. This finding suggests that the warning system may help mitigate the frustration associated with these setbacks, encouraging continued engagement. <br/> 
+
+![Survival probability](/images/SurvivalResults_both.png)
