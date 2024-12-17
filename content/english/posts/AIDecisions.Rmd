@@ -1,0 +1,40 @@
+---
+title: "AI & Chess decisions"
+author: "Nemanja Vaci"
+date: "2024-12-17"
+output: html_document
+---
+
+# Advent of AI
+
+
+Here’s a more polished version of your text:
+
+Large Language Models (LLMs) have become inescapable and are proving to be immensely helpful in numerous situations. From generating Python and R loops to assisting in drafting entire grant applications, their utility is undeniable—though I remain skeptical of fully trusting them for critical tasks. 
+
+Nevertheless, LLMs undoubtedly enhance productivity and streamline workflows. For instance, Noy and Zhang (2023) found that integrating ChatGPT into professional tasks significantly increases productivity among college-educated workers, reducing task completion time by 40% and improving output quality by 18%. Similarly, Dell'Acqua et al. (2023) demonstrated that AI integration, particularly for tasks well-suited to AI capabilities, leads to notable performance improvements.
+
+However, an important question remains: do LLMs genuinely enhance the quality of our decisions and work?
+  
+## Quality of decisions in chess and AI
+  
+Chess has long served as a fertile domain for psychological research. With its deceptively simple rules embedded in a highly complex environment, chess provides an ideal platform for experimental inquiry—earning it the title "the Drosophila of cognitive science" (Chase & Simon, 1973b).
+
+In recent years, researchers have turned their attention to a more granular aspect of chess: individual moves within games. These discrete moves form a sequence of decisions whose quality can be objectively evaluated by comparing them against the optimal recommendations of modern chess engines. This approach allows for a precise, context-independent assessment of player performance across different historical periods.
+
+To investigate the impact of AI and neural networks on decision quality among elite players, we conducted a comprehensive analysis of the top 20 chess players from 1985 to 2021. Our study examines their micro-decisions—individual moves—and benchmarks them against the outputs of the strongest available chess engines, providing an objective measure of performance. Furthermore, we extend this analysis to two additional groups: the top 20 young players (under 20 years old) and the top 20 senior players (over 65 years old). 
+
+When it comes to the relation between strenght of chess engines and and players' Elo Rating, we certainly see a strong correlation:
+
+![Players' Elo versus AI Elo](/images/EloAI.jpg)
+
+However, there is a general absence of sudden changes in quality of decision making. We find that the best players improved the quality of their decision over the last four decades irrespective of age. The improvement goes hand in hand with the improvement made in the chess AI domain, in particular for the very best players whose improvement rates were highly correlated with the improvement rates of the best available chess engines. Nevertheless, there were no discernable periods of time when the improvement rate was especially rapid in the case of the best players.
+
+
+![Change Point Analysis for three groups of players](/images/MCP_chess.jpg)
+
+Finally, you can check out a case study on Magnus Carlsen's move quality over time.
+
+![](/images/MC.jpg)
+
+__Full study: [LINK](https://bpspsychub.onlinelibrary.wiley.com/doi/full/10.1111/bjop.12750)__

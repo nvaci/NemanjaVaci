@@ -24,3 +24,5 @@ We demonstrate that players respond to the additional signal provided by the war
 Similarly, measures of skill acquisition, such as the number of deaths and achieved scores per level, indicate that the warning manipulation does not significantly influence how players optimize their progression through the levels. Notably, though, the warning system reduces the likelihood of players discontinuing their exploration of the game after experiencing a "game over" event—losing all their lives and having to repeat the world. This finding suggests that the warning system may help mitigate the frustration associated with these setbacks, encouraging continued engagement. <br/> 
 
 ![Survival probability](/images/SurvivalResults_both.png)
+
+Full study:[LINK](https://escholarship.org/uc/item/6r02x9pq)
