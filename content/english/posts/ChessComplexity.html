@@ -18,8 +18,10 @@ output: html_document
 <p>The strategic structure of chess is traditionally divided into three phases: the opening, middlegame, and endgame. The opening phase is characterized by reduced variability due to established theoretical lines, while the endgame involves sparse positions that are often amenable to exhaustive analysis. In contrast, the middlegame stands out as uniquely challenging. This complexity and unpredictability are precisely what make the middlegame such a fascinating focus for research in chess strategy and decision-making. </br></p>
 <p>To address the complexity and sparsity of signals in the middlegame, Justin approached the problem from a cognitive psychology perspective. He explored literature behing planning depth of chess players, discovering that they typically plan two to six steps ahead. He also took into account that players tend to chunk semantically related chess pieces and constellations, effectively organizing their vast domain-specific knowledge. </br></p>
 <p>Building on this insight, Justin focused on defining the size of chess constellations or patterns. By borrowing the <a href="https://stackoverflow.com/questions/8269916/what-is-sliding-window-algorithm-examples">Sliding Window algorithm</a> from Natural Language Processing, he analyzed a dataset of 2,235,823 games. This process yielded 106,810 unique 11-ply constellations that appeared at least 20 times in the data. This innovative approach allowed him to capture and analyze recurring patterns within the complex middlegame phase. </br></p>
-<p><img src="/images/Zipf.png" alt="Frequency of chess constelations in 2+ million games" />
-## Complexity in chess</p>
+<p><img src="/images/Zipf.png" alt="Frequency of chess constelations in 2+ million games" /> </br></p>
+</div>
+<div id="complexity-in-chess" class="section level2">
+<h2>Complexity in chess</h2>
 <p>In addition to innovative methodological pipeline, Justin conducted a comprehensive review of studies that have attempted to quantify position complexity in chess. He identified three commonly used proxies for complexity:</p>
 <p><strong>Difficulty:</strong> The challenge faced when playing from an advantaged or disadvantaged position. </br>
 <strong>Optionality:</strong> The cognitive effort required to find an optimal move during the decision-making process. </br>

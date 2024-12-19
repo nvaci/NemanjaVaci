@@ -21,7 +21,8 @@ To address the complexity and sparsity of signals in the middlegame, Justin appr
 
 Building on this insight, Justin focused on defining the size of chess constellations or patterns. By borrowing the [Sliding Window algorithm](https://stackoverflow.com/questions/8269916/what-is-sliding-window-algorithm-examples) from Natural Language Processing, he analyzed a dataset of 2,235,823 games. This process yielded 106,810 unique 11-ply constellations that appeared at least 20 times in the data. This innovative approach allowed him to capture and analyze recurring patterns within the complex middlegame phase. </br>
 
-![Frequency of chess constelations in 2+ million games](/images/Zipf.png)
+![Frequency of chess constelations in 2+ million games](/images/Zipf.png) </br>
+
 ## Complexity in chess
 
 
