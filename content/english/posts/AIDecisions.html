@@ -18,15 +18,11 @@ output: html_document
 <p>In recent years, researchers have turned their attention to a more granular aspect of chess: individual moves within games. These discrete moves form a sequence of decisions whose quality can be objectively evaluated by comparing them against the optimal recommendations of modern chess engines. This approach allows for a precise, context-independent assessment of player performance across different historical periods.</p>
 <p>To investigate the impact of AI and neural networks on decision quality among elite players, we conducted a comprehensive analysis of the top 20 chess players from 1985 to 2021. Our study examines their micro-decisions—individual moves—and benchmarks them against the outputs of the strongest available chess engines, providing an objective measure of performance. Furthermore, we extend this analysis to two additional groups: the top 20 young players (under 20 years old) and the top 20 senior players (over 65 years old).</p>
 <p>When it comes to the relation between strenght of chess engines and and players’ Elo Rating, we certainly see a strong correlation:</p>
-<div class="figure">
-<img src="/images/EloAI.jpg" alt="" />
-<p class="caption">Players’ Elo versus AI Elo</p>
-</div>
+<p><img src="/images/EngGMElo.png" />
+Or one could look at how Chess Engine strength improved over time:</p>
+<p><img src="/images/EloAI.jpg" /></p>
 <p>However, there is a general absence of sudden changes in quality of decision making. We find that the best players improved the quality of their decision over the last four decades irrespective of age. The improvement goes hand in hand with the improvement made in the chess AI domain, in particular for the very best players whose improvement rates were highly correlated with the improvement rates of the best available chess engines. Nevertheless, there were no discernable periods of time when the improvement rate was especially rapid in the case of the best players.</p>
-<div class="figure">
-<img src="/images/MCP_chess.jpg" alt="" />
-<p class="caption">Change Point Analysis for three groups of players</p>
-</div>
+<p><img src="/images/MCP_chess.jpg" /></p>
 <p>Finally, you can check out a case study on Magnus Carlsen’s move quality over time.</p>
 <p><img src="/images/MC.jpg" /></p>
 <p><strong>Full study: <a href="https://bpspsychub.onlinelibrary.wiley.com/doi/full/10.1111/bjop.12750">LINK</a></strong></p>

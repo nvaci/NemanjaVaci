@@ -23,12 +23,15 @@ To investigate the impact of AI and neural networks on decision quality among el
 
 When it comes to the relation between strenght of chess engines and and players' Elo Rating, we certainly see a strong correlation:
 
-![Players' Elo versus AI Elo](/images/EloAI.jpg)
+![](/images/EngGMElo.png)
+Or one could look at how Chess Engine strength improved over time:
+
+![](/images/EloAI.jpg)
 
 However, there is a general absence of sudden changes in quality of decision making. We find that the best players improved the quality of their decision over the last four decades irrespective of age. The improvement goes hand in hand with the improvement made in the chess AI domain, in particular for the very best players whose improvement rates were highly correlated with the improvement rates of the best available chess engines. Nevertheless, there were no discernable periods of time when the improvement rate was especially rapid in the case of the best players.
 
 
-![Change Point Analysis for three groups of players](/images/MCP_chess.jpg)
+![](/images/MCP_chess.jpg)
 
 Finally, you can check out a case study on Magnus Carlsen's move quality over time.
 
