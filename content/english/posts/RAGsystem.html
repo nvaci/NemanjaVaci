@@ -1,0 +1,113 @@
+---
+title: "RAG using txtai and Llama"
+author: "Nemanja Vaci"
+date: "2025-01-10"
+output: html_document
+---
+
+
+
+<div id="retrieval-augmented-generation" class="section level1">
+<h1>Retrieval-Augmented Generation</h1>
+<p>The development in artificial intelligence research, specifically large language models, is hard to miss. Not only are some of these applications interesting and impressive, even if seriously uncanny (e.g. AI-generated podcasts based on scientific PDFs, thanks to Ian Kellar for showing me this), but we hear more and more from the domain leaders, claiming that AI will enter general workforce and change our economies and social worlds (<a href="https://www.forbes.com/sites/danfitzpatrick/2025/01/07/agi-is-coming-in-2025-schools-urgently-need-a-strategy/">AGI in 2025</a>). As with any other monumental change in the environment, there is a substantial confusion in non-experts in the domain, such as like myself. LLMs are quite helpful in certain situations, but I am also unimpressed by the quality of the output and the errors that it can produce. This comment is a very good overview of how I feel about them when it comes to coding:</p>
+<center>
+<p><img src="https://media.licdn.com/dms/image/v2/D5622AQGn4OiG1NL7eQ/feedshare-shrink_2048_1536/B56ZRLPiUdHIAo-/0/1736429152790?e=1739404800&amp;v=beta&amp;t=kwTbJ0dXOYq3H5TNIfQYKgdRnEKCNUP7PChlHub4YMY" style="width:50.0%" /></p>
+</center>
+<p>However, my work is very much supported by the access to the LLM models. Outside of running it to rewrite emails when my verbal capacities are shot, they support my thinking and willingness to tackle more advanced research ideas. Recently, I started thinking of RAG applications in psychology and wanted to see if I could build an RAG pipeline to process published findings in my research domain.</p>
+<p>For most of this work, I used txtai environment in Python: <a href="https://github.com/neuml/txtai">txtai</a>. Even though txtai can process text from PDFs, I came upon GROBID servers first: <a href="https://grobid.readthedocs.io/en/latest/Introduction/">GROBID</a>. Finally, I used Llama-3-8B-Instruct model through Huggingface as my LLM model.</p>
+<pre><code>## Loading required package: reticulate</code></pre>
+<pre><code>## Python 3.9.12 (C:/Users/neman/anaconda3/envs/Spacy/python.exe)
+## Reticulate 1.40.0 REPL -- A Python interpreter in R.
+## Enter &#39;exit&#39; or &#39;quit&#39; to exit the REPL and return to R.</code></pre>
+<pre><code>## exit</code></pre>
+<div id="step-1-grobid-pdf-to-xml" class="section level2">
+<h2>Step 1: GROBID (PDF to XML)</h2>
+<p>As outlined in the package, <a href="https://grobid.readthedocs.io/en/latest/Introduction/">GROBID</a> is a machine learning library for extracting, parsing and re-structuring raw documents such as PDF into structured XML/TEI encoded documents with a particular focus on technical and scientific publications. To make it work, you need install <a href="https://docs.docker.com/get-started/get-docker/">Docker</a> and run the GROBID image using Docker through command prompt:</p>
+<pre class="r"><code>docker run --rm --gpus all --init --ulimit core=0 -p 8070:8070 grobid/grobid:0.8.1</code></pre>
+<p>Then you can process PDFs through Python and transform them to the xml format:</p>
+<pre class="r"><code>from grobid_client.grobid_client import GrobidClient 
+client = GrobidClient(config_path=&quot;./grobid_client_python/config.json&quot;) #We need to tell where is the configuration of Grobid client
+client.process(&quot;processFulltextDocument&quot;, &quot;U:/Llama/input&quot;) #We want to process full PDFs that are on the provided pathway</code></pre>
+</div>
+<div id="step-2-rag-system-using-txtai" class="section level2">
+<h2>Step 2: RAG system using txtai</h2>
+<p>The next step is to make a RAG pipeline. One of the best/most interesting packages/environments that I found was the txtai package. I used some of their existing tutorials and case studies when working on this pipeline (the introduction to txtai, building of the embeddings, and development of the RAG system). I am certain that there are ways to improve how I use their functions and reduce errors in my approach, but lets hope that I solve those over time.</p>
+<pre class="python"><code>import os
+os.environ[&quot;KMP_DUPLICATE_LIB_OK&quot;]=&quot;TRUE&quot; #OK, i know that error specifically says that you should not do this, but it seems that loading of the model crashes the environment due to same packages existing in other conda environments 
+from bs4 import BeautifulSoup #we also want to manipulate xml file
+import re
+import xml.etree.ElementTree as ET</code></pre>
+<p>To test the model and the RAG pipeline I used a co-authored study in which we analysed chess data to investigate how practice (played games) and numerical intelligence influence skill acquisition (Elo Rating) over the course of the career (Age). You can check the published paper here: <a href="https://www.pnas.org/doi/abs/10.1073/pnas.1819086116">link</a></p>
+<pre class="python"><code>file_path = &quot;D:/Science_220721/Clanci - in the process/RAG/vaci-et-al-2019-the-joint-influence-of-intelligence-and-practice-on-skill-development-throughout-the-life-span.grobid.tei.xml&quot; #path to specific XML file
+
+#You need to read the file
+with open(file_path, &quot;r&quot;, encoding=&quot;utf-8&quot;) as file:
+    xml_content = file.read()</code></pre>
+<pre class="python"><code>#You need to parse the xml object to have a nested structure of headings and paragraphs
+soup = BeautifulSoup(xml_content, &#39;xml&#39;)</code></pre>
+<p>Most of the publications will have different content under different headings, so I use BeautifulSoup function to process the hierarchical elements, extract content and format it in a list where paragraphs are located under the headings.</p>
+<pre class="python"><code>def extract_content(xml_content):
+    content_by_heading = []
+    sections = soup.find_all(&#39;div&#39;)
+    for section in sections:
+        heading = section.find(&#39;head&#39;)
+        if heading:
+            heading_text = heading.text.strip()
+            paragraphs = [p.text.strip() for p in section.find_all(&#39;p&#39;) if p.text.strip()]
+            content_by_heading.append({&quot;heading&quot;: heading_text, &quot;text&quot;: paragraphs})
+    return content_by_heading</code></pre>
+<p>These are the headings in my publication:</p>
+<pre class="python"><code>data=extract_content(soup)
+for n in data: 
+    print(n[&#39;heading&#39;])</code></pre>
+<pre><code>## Significance
+## Current Study
+## Results
+## Discussion
+## Methods</code></pre>
+<p>I want to only use Methods section at the moment:</p>
+<pre class="python"><code>methods = [item for item in data if item[&quot;heading&quot;] == &quot;Methods&quot;]
+methods</code></pre>
+<pre><code>## [{&#39;heading&#39;: &#39;Methods&#39;, &#39;text&#39;: [&#39;Participants. Ninety (90) active tournament chess players from Austria [M(age) = 36.23, SD = 13.29, range = 15 to 65 y, when tested on intelligence in 2003 and 2004] took part in the study (29). They were recruited through announcements at Austrian chess clubs and local tournaments, offering the opportunity to obtain information about their individual test results. All participants gave written informed consent that their data can be used for research purposes and be published in anonymous form. The research protocol was approved by the Research Management and Service as well as by the Institute of Psychology at the University of Graz.&#39;, &quot;Chess Data. Players&#39; chess skill and practice data were extracted from the publicly accessible Austrian chess database (www.chess-results.com). We used the Elo ratings as an indicator of chess skill and the number of tournament games as an indicator of chess practice. The Elo ratings are regularly (every 6 mo) computed based on the players&#39; tournament outcomes and can be considered a highly reliable and valid measure of chess expertise (for details, see refs. 27 and 29). They typically range from 800 (in beginners) to about 2,850 (the current world champion, Magnus Carlsen). The Elo ratings and number of tournament games per year were collected from 1994 to 2016 (23 time points) for each player in the sample. The entrance level for obtaining the Elo rating, i.e., the lowest rating possible, has varied over the years. Currently, it is 800 points, but at the time of testing it was 1,200 points.&quot;, &quot;Intelligence. Participants&#39; intelligence was assessed in the years 2003 to 2004 using a well-established German intelligence structure test, IST-2000R (41). This test can be administered to individuals from age 15 with no upper limit and captures 3 content components of intelligence (i.e., verbal, numerical, and figural) as well as general intelligence (reasoning; based on the 3 content components) with high reliabilities (Cronbach&#39;s alphas for verbal, 0.88; numerical, 0.95; figural, 0.87; and general, 0.96; ref. 41). The content components have consistently been found in different theories of intelligence structure (42)(43)(44). Each component is measured by means of 3 subscales (each consisting of 20 items): verbal intelligence (sentence completion, verbal analogies, finding similarities), numerical intelligence (arithmetic problems, number series, arithmetic operators), and figural intelligence (figure selection, cube task, matrices). The results on the relationship between intelligence and Elo ratings at the time of testing were published in a previous study (29).&quot;, &#39;Descriptive Analysis. The descriptive statistics with intercorrelations can be found in SI Appendix, Table S1. For the analyses, the raw scores of the intelligence scales were used (also presented in SI Appendix, Table S1).&#39;, &#39;Data Analysis. Preliminary data screening was performed to ensure that potential data entry mistakes were eliminated. We followed the procedure from previous studies (28,45,46) and restricted the tails of the age distribution. In the case of this study, we excluded players under 10 y and over 80 y when presenting the modeling results (Fig. 1).&#39;, &#39;The data were analyzed using 2 different modeling approaches. For the main analysis, we used GAMs, while for the triangulation of results, we used linear mixed-effect regression with specified polynomial terms across the age, which is a standard approach in expertise research when modeling time changes.&#39;, &#39;GAMs. The GAM is a data-driven method designed to estimate the nonlinear relation between covariates and the dependent variable. A GAM replaces the usual linear function of a covariate with an unspecified smooth function:&#39;, &#39;The model is nonparametric in the sense that we do not impose a parametric form of the function (e.g., linear, quadratic, or cubic function), but we are estimating it in an iterative process (47). To estimate the nonlinear effect or form of the function, the model needs to estimate the space of functions that can represent f in the equation. This is usually termed the basis function (47). For example, if we believe that the relationship between predictor and outcome is a fourth-order polynomial, then the space of polynomials of order 4 and below contains f. The basis of the function is then summed over all individual polynomial terms up to the fourth-order polynomial, and the relation between predictor and dependent variable can be represented by such a structure, e.g., a sigmoidal curve. In contrast to the standard linear model, in GAMs we do not have to specify the basis of the function (polynomial terms, cubic splines, etc.), as this type of modeling iteratively optimizes the smooth function (basis) and proposes an optimal structure between dependent and independent variable. In addition to the univariate nonlinear basis estimation, in the case of this study we used tensor product smooths to investigate and illustrate interactions between age, practice, and numerical intelligence: y i = f ðx i , z i , t i Þ + e i . The GAMs estimate complex nonlinear interactions in a similar manner to the univariate function, where nonlinear interactions are governed by basis of the functions for x (Practice), z (Intelligence), and t (Age). The nonlinear effect is a superposition (joint effect) between these 3 variables, by assuming that this complex nonseparable function f(x, z, t) can be approximated by the product of simpler functions f x (x), f z (z), and f t (t) at sufficiently small intervals across values for each of the variables.&#39;, &#39;The results of the GAM cannot be interpreted in the standard linear regression terminology, i.e., change in the outcome dependent on the 1-unit change in independent variable. The GAMs provide information about the wiggliness of the regression line (summarization of all individual functions), and whether the line is significantly different from zero. As in the case of most data-driven and nonlinear methods, the visualization is a necessary tool when interpreting the results. Age, practice, and numerical intelligence. In the case of the final model (model 4 in Table 1), we included age, practice (number of played games per year), and numerical intelligence in the model as the independent variable and Elo rating as the dependent variable in the mgcv package in R (30). We specified the linear and nonlinear effect for all predictors, as well as the nonlinear interactions between them.&#39;, &quot;The summary of the model is presented in SI Appendix, Table S2 with 2 separate outputs: parametric coefficients and smooth terms. The parametric coefficients in the case of this analysis show the linear effects of the included predictors. In the case when nonlinear effects are not included in the analysis, the parametric coefficients are identical to a standard linear or linear mixed-effect model. The nonlinear interaction and main nonlinear effect are represented in the second section of the table by te(Age, Practice, Intelligence) syntax. The results show significant nonlinear interaction between the practice and numerical intelligence across the lifetime. These nonlinear surfaces show the interactive influence of practice and intelligence on the development of performance (Elo rating) across the life span. Finally, the results show the adjusted R 2 and explained deviance, as well as the restricted maximum likelihood score, which is used to model selection criteria (i.e., lower values indicate better fit of the model). Before arriving at the final model, we investigated the influence of intelligence and practice separately. We first fitted the basic model that starts with player&#39;s age (model 1). We used model 1 to add various types of intelligence (model 2a for numerical intelligence) and practice (model 2b) in isolation. See SI Appendix for the analysis of other intelligence types as well as for corroboration of the results using a different modeling approach, namely linear mixed effects. The additional information on the interpretation of the territory maps (Figs. 3 and4) can also be found in SI Appendix.&quot;, &#39;Data and Materials Availability. In order to protect the privacy of individuals involved in the study, the data cannot be shared publicly. However, requests will be considered for addressing specific research questions while maintaining the anonymity of the subjects.&#39;, &#39;The online materials can be retrieved from https://osf.io/k8w6g/.&#39;, &quot;ACKNOWLEDGMENTS. Matthew Bladen&#39;s contribution to preparing the article for publication is greatly appreciated.&quot;]}]</code></pre>
+<p>Finally, I can index the methods section and add the text to the embeddings object using txtai function Embeddings:</p>
+<pre class="python"><code>from txtai import Embeddings #We want to create Embeddings object where we will calculate embeddings of paragraphs from our publication
+embeddings = Embeddings(content=True)
+embeddings.index(methods)</code></pre>
+</div>
+<div id="step-3-using-the-llama-model" class="section level2">
+<h2>Step 3: Using the Llama model</h2>
+<p>To use the models through <a href="https://huggingface.co/">Huggingface</a>, you need to create an account and to use one of the META models, as well as get permissions by filling out community license agreement: <a href="https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct">link</a>. Then you can go to the settings of your profile and generate Access Tokens and used them to log into the huggingface notebook before loading the model:</p>
+<pre class="python"><code>from huggingface_hub import notebook_login #To use Llama model, we need to log into the huggingface account and provide token
+os.environ[&quot;HUGGINGFACE_HUB_TOKEN&quot;] = &quot;your Huggingface token&quot;</code></pre>
+<p>The tokens allow you to load the model:</p>
+<pre class="python"><code>from txtai import LLM
+llm = LLM(&quot;meta-llama/Meta-Llama-3-8B-Instruct&quot;, method=&quot;transformers&quot;)</code></pre>
+<p>When asking questions, we would like to find the best fitting paragraphs (closest content in embedding space) and use that to answer the question. So we will join all the paragraphs that are found as closest to the question (you can define number of hits in embeddings.search function).</p>
+<pre class="python"><code>def context(question):
+  context =  &quot;\n&quot;.join(x[&quot;text&quot;] for x in embeddings.search(question))
+  return context
+
+def rag(question):
+  return execute(question, context(question))</code></pre>
+<p>Finally, we would like to send instructions to our LLM model, where we ask it a question and provide it with the context that is closest to our question:</p>
+<pre class="python"><code>def execute(question, text):
+  prompt = f&quot;&quot;&quot;&lt;|im_start|&gt;system
+  You are a friendly assistant. You answer questions from users.&lt;|im_end|&gt;
+  &lt;|im_start|&gt;user
+  Answer the following question using only the context below. Only include information specifically asked about and exclude any additional text. 
+
+  question: {question}
+  context: {text} &lt;|im_end|&gt;
+  &lt;|im_start|&gt;assistant
+  &quot;&quot;&quot;
+
+  return llm(prompt, maxlength=8096, pad_token_id=32000)</code></pre>
+<p>And now we have RAG system.</p>
+<pre class="python"><code>answer = rag(&quot;What are the variables measured in the text that you processed&quot;)
+answer</code></pre>
+<p><img src="/images/Capture1.PNG" style="width:110.0%" /></p>
+<pre class="python"><code>answer=rag(&quot;Can you write out the form of the GAM model&quot;)</code></pre>
+<p><img src="/images/Capture2.PNG" style="width:110.0%" /></p>
+<p>The outputs are screenshotted, as it is too much to run LLM in Python within R and live render RMD file for Hugo website.</p>
+</div>
+</div>

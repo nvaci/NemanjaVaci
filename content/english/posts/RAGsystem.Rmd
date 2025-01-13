@@ -1,0 +1,176 @@
+---
+title: "RAG using txtai and Llama"
+author: "Nemanja Vaci"
+date: "2025-01-10"
+output: html_document
+---
+
+# Retrieval-Augmented Generation
+
+The development in artificial intelligence research, specifically large language models, is hard to miss. Not only are some of these applications interesting and impressive, even if seriously uncanny (e.g. AI-generated podcasts based on scientific PDFs, thanks to Ian Kellar for showing me this), but we hear more and more from the domain leaders, claiming that AI will enter general workforce and change our economies and social worlds ([AGI in 2025](https://www.forbes.com/sites/danfitzpatrick/2025/01/07/agi-is-coming-in-2025-schools-urgently-need-a-strategy/)). As with any other monumental change in the environment, there is a substantial confusion in non-experts in the domain, such as like myself. LLMs are quite helpful in certain situations, but I am also unimpressed by the quality of the output and the errors that it can produce. This comment is a very good overview of how I feel about them when it comes to coding:
+
+<center>
+
+![](https://media.licdn.com/dms/image/v2/D5622AQGn4OiG1NL7eQ/feedshare-shrink_2048_1536/B56ZRLPiUdHIAo-/0/1736429152790?e=1739404800&v=beta&t=kwTbJ0dXOYq3H5TNIfQYKgdRnEKCNUP7PChlHub4YMY){width=50%}
+
+</center>
+
+However, my work is very much supported by the access to the LLM models. Outside of running it to rewrite emails when my verbal capacities are shot, they support my thinking and willingness to tackle more advanced research ideas. Recently, I started thinking of RAG applications in psychology and wanted to see if I could build an RAG pipeline to process published findings in my research domain. 
+
+For most of this work, I used txtai environment in Python: [txtai](https://github.com/neuml/txtai). Even though txtai can process text from PDFs, I came upon GROBID servers first: [GROBID](https://grobid.readthedocs.io/en/latest/Introduction/). Finally, I used Llama-3-8B-Instruct model through Huggingface as my LLM model.  
+
+```{r, echo=FALSE}
+require(reticulate)
+use_condaenv('C:\\Users\\neman\\anaconda3\\envs\\Spacy')
+repl_python()
+```
+
+
+## Step 1: GROBID (PDF to XML) 
+
+As outlined in the package, [GROBID](https://grobid.readthedocs.io/en/latest/Introduction/) is a machine learning library for extracting, parsing and re-structuring raw documents such as PDF into structured XML/TEI encoded documents with a particular focus on technical and scientific publications. To make it work, you need install [Docker](https://docs.docker.com/get-started/get-docker/) and run the GROBID image using Docker through command prompt:
+
+```{r, eval=FALSE}
+docker run --rm --gpus all --init --ulimit core=0 -p 8070:8070 grobid/grobid:0.8.1
+```
+
+Then you can process PDFs through Python and transform them to the xml format:
+
+```{r, eval=FALSE}
+from grobid_client.grobid_client import GrobidClient 
+client = GrobidClient(config_path="./grobid_client_python/config.json") #We need to tell where is the configuration of Grobid client
+client.process("processFulltextDocument", "U:/Llama/input") #We want to process full PDFs that are on the provided pathway
+```
+
+## Step 2: RAG system using txtai 
+
+The next step is to make a RAG pipeline. One of the best/most interesting packages/environments that I found was the txtai package. I used some of their existing tutorials and case studies when working on this pipeline (the introduction to txtai, building of the embeddings, and development of the RAG system). I am certain that there are ways to improve how I use their functions and reduce errors in my approach, but lets hope that I solve those over time.  
+
+
+```{python}
+import os
+os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE" #OK, i know that error specifically says that you should not do this, but it seems that loading of the model crashes the environment due to same packages existing in other conda environments 
+from bs4 import BeautifulSoup #we also want to manipulate xml file
+import re
+import xml.etree.ElementTree as ET
+```
+
+To test the model and the RAG pipeline I used a co-authored study in which we analysed chess data to investigate how practice (played games) and numerical intelligence influence skill acquisition (Elo Rating) over the course of the career (Age). You can check the published paper here: [link](https://www.pnas.org/doi/abs/10.1073/pnas.1819086116) 
+
+
+```{python}
+file_path = "D:/Science_220721/Clanci - in the process/RAG/vaci-et-al-2019-the-joint-influence-of-intelligence-and-practice-on-skill-development-throughout-the-life-span.grobid.tei.xml" #path to specific XML file
+
+#You need to read the file
+with open(file_path, "r", encoding="utf-8") as file:
+    xml_content = file.read()
+```
+
+```{python}
+#You need to parse the xml object to have a nested structure of headings and paragraphs
+soup = BeautifulSoup(xml_content, 'xml')
+```
+
+Most of the publications will have different content under different headings, so I use BeautifulSoup function to process the hierarchical elements, extract content and format it in a list where paragraphs are located under the headings. 
+
+```{python}
+def extract_content(xml_content):
+    content_by_heading = []
+    sections = soup.find_all('div')
+    for section in sections:
+        heading = section.find('head')
+        if heading:
+            heading_text = heading.text.strip()
+            paragraphs = [p.text.strip() for p in section.find_all('p') if p.text.strip()]
+            content_by_heading.append({"heading": heading_text, "text": paragraphs})
+    return content_by_heading
+```
+
+These are the headings in my publication:
+
+```{python}
+data=extract_content(soup)
+for n in data: 
+    print(n['heading'])
+```
+
+I want to only use Methods section at the moment: 
+
+```{python}
+methods = [item for item in data if item["heading"] == "Methods"]
+methods
+```
+
+Finally, I can index the methods section and add the text to the embeddings object using txtai function Embeddings:
+
+```{python, eval=FALSE}
+from txtai import Embeddings #We want to create Embeddings object where we will calculate embeddings of paragraphs from our publication
+embeddings = Embeddings(content=True)
+embeddings.index(methods)
+```
+
+## Step 3: Using the Llama model
+
+To use the models through [Huggingface](https://huggingface.co/), you need to create an account and to use one of the META models, as well as get permissions by filling out community license agreement: [link](https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct). Then you can go to the settings of your profile and generate Access Tokens and used them to log into the huggingface notebook before loading the model: 
+
+
+```{python, echo=FALSE}
+os.environ["HUGGINGFACE_HUB_TOKEN"] = "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"
+```
+
+```{python, eval=FALSE}
+from huggingface_hub import notebook_login #To use Llama model, we need to log into the huggingface account and provide token
+os.environ["HUGGINGFACE_HUB_TOKEN"] = "your Huggingface token"
+```
+
+The tokens allow you to load the model: 
+
+```{python, eval=FALSE}
+from txtai import LLM
+llm = LLM("meta-llama/Meta-Llama-3-8B-Instruct", method="transformers")
+```
+
+When asking questions, we would like to find the best fitting paragraphs (closest content in embedding space) and use that to answer the question. So we will join all the paragraphs that are found as closest to the question (you can define number of hits in embeddings.search function). 
+
+```{python}
+def context(question):
+  context =  "\n".join(x["text"] for x in embeddings.search(question))
+  return context
+
+def rag(question):
+  return execute(question, context(question))
+```
+
+Finally, we would like to send instructions to our LLM model, where we ask it a question and provide it with the context that is closest to our question:
+
+```{python}
+def execute(question, text):
+  prompt = f"""<|im_start|>system
+  You are a friendly assistant. You answer questions from users.<|im_end|>
+  <|im_start|>user
+  Answer the following question using only the context below. Only include information specifically asked about and exclude any additional text. 
+
+  question: {question}
+  context: {text} <|im_end|>
+  <|im_start|>assistant
+  """
+
+  return llm(prompt, maxlength=8096, pad_token_id=32000)
+```
+
+And now we have RAG system. 
+
+```{python, eval=FALSE}
+answer = rag("What are the variables measured in the text that you processed")
+answer
+```
+
+![](/images/Capture1.PNG){width=110%}
+
+```{python, eval=FALSE}
+answer=rag("Can you write out the form of the GAM model")
+```
+
+![](/images/Capture2.PNG){width=110%}
+
+The outputs are screenshotted, as it is too much to run LLM in Python within R and live render RMD file for Hugo website.  
