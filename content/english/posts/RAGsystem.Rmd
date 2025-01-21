@@ -97,7 +97,11 @@ for n in data:
 I want to only use Methods section at the moment: 
 
 ```{python}
-methods = [item for item in data if item["heading"] == "Methods"]
+methods = [
+    paragraph
+    for item in data if item["heading"] == "Methods"
+    for paragraph in item["text"]
+]
 methods
 ```
 
@@ -108,6 +112,15 @@ from txtai import Embeddings #We want to create Embeddings object where we will 
 embeddings = Embeddings(content=True)
 embeddings.index(methods)
 ```
+
+Search function:
+
+```{python, eval=FALSE}
+for x in embeddings.search('Sample size'):
+  print(x)
+```
+
+![](/images/Capture0.png){width=110%}
 
 ## Step 3: Using the Llama model
 
