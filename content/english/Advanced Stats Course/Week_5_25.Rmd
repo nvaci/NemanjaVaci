@@ -1,0 +1,16 @@
+---
+title: "Week 5 - Structural Equation Modelling (Path)"
+author: "Nemanja Vaci"
+date: "2025-03-13"
+output: html_document
+---
+
+```{r, echo=FALSE}
+knitr::include_url("https://nvaci.github.io/Week5_25/Week5.html#1")
+```
+
+To open full screen with rendered math expressions: </br>
+Press __c__ to clone the slides to a new browser window</br>
+Press __f__ to open full screen</br>
+Press __p__ to enter presenter mode - additional links and explanations</br>
+Or you can follow this link: https://nvaci.github.io/Week5_25/Week5.html#1
