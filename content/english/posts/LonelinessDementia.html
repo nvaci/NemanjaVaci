@@ -1,0 +1,48 @@
+---
+title: "Loneliness and Social Isolation in Dementia"
+author: "Nemanja Vaci"
+date: "2025-07-30"
+output: html_document
+---
+
+
+
+<div id="loneliness-and-social-isolation" class="section level2">
+<h2>Loneliness and Social Isolation</h2>
+<p>Loneliness and social isolation are increasingly common in today’s hyperconnected yet emotionally disconnected world. As our lives become more globalised and digitally distracted, many people find themselves feeling alone. We know that both loneliness and isolation increase the risk of developing mental health conditions, including dementia. But what we still don’t fully understand is their role after diagnosis: do they actually influence how quickly dementia progresses? </br></p>
+<p>Motivated by this question, my PhD student <a href="https://www.linkedin.com/in/jamesacmyers/">James A. C. Myers</a> set out to investigate whether feeling lonely or being socially isolated could accelerate cognitive decline in people already living with dementia. </br></p>
+</div>
+<div id="clinical-notes-and-nlp" class="section level2">
+<h2>Clinical notes and NLP</h2>
+<p>To explore this question, we turned to the unstructured text in electronic health records. These clinical notes frequently capture patients’ emotional and social experiences, details that are typically only available in small, prospective studies, and rarely at such scale or nuance. We developed and trained natural language processing (NLP) models capable of automatically identifying mentions of loneliness and social isolation across more than 6 million medical documents. This enabled us to uncover subtle patterns in how these experiences are described by patients and recorded by clinicians, and crucially, to link them to objective measures of cognitive performance over time. </br></br></p>
+<p><img src="/images/Sentences.PNG" alt="Example of sentences and their categories" />
+</br></br></p>
+<p><strong>The NLP model worked in two stages:</strong> </br></p>
+<p>Pattern Matching: We scanned millions of sentences using keywords and phrases related to loneliness and isolation—such as “feeling lonely,” “lives alone,” or “socially withdrawn.” </br></p>
+<p>Contextual Classification: Next, we used a sentence transformer model to classify whether those mentions were genuinely meaningful (e.g., “Patient reports feeling lonely and isolated at home”) or simply unrelated uses of similar language (e.g., “isolated incident” or “patient is alone in the room”).</p>
+<p>Once validated, we deployed it across over 6 million clinical documents, enabling us to quantify social disconnection in a way that had never been done before.</p>
+</div>
+<div id="cognitive-trajectories" class="section level2">
+<h2>Cognitive trajectories</h2>
+<p>To capture non-linear changes in cognition across the disease course, James modelled repetead MoCA scores using generalized additive mixed models (GAMMs) and Linear mixed-effect models (LMERs).</p>
+<p>The key findings were:</p>
+<p>Loneliness was associated with consistently lower cognitive scores throughout the disease. Patients who reported loneliness had MoCA scores that were, on average, 0.83 points lower at diagnosis and remained lower across time.</p>
+<p>Social isolation was linked to a faster rate of cognitive decline—particularly in the 6 months leading up to diagnosis. Isolated patients showed a steeper drop in cognition before diagnosis, with MoCA scores averaging 0.69 points lower at the time of diagnosis.</p>
+<p>These findings suggest that both loneliness and social isolation not only co-occur with dementia but may influence how quickly the disease progresses—highlighting their importance as potential intervention targets in clinical care.</p>
+<div class="figure">
+<img src="/images/dementiaProg.png" alt="" />
+<p class="caption">Cognitive trajectories over the course of disease</p>
+</div>
+</div>
+<div id="implications-for-clinical-care" class="section level2">
+<h2>Implications for clinical care</h2>
+<p>Monitoring for loneliness and isolation could help identify patients at risk of rapid cognitive deterioration.</p>
+<p>These factors could serve as early warning signs, prompting closer cognitive follow-up or earlier support interventions.</p>
+<p>The results also strengthen the case for social prescribing and psychosocial interventions (e.g. befriending, group activities, community support) as part of dementia care pathways.</p>
+<p>Here is the link to the published paper, ENJOY: <strong><a href="https://alz-journals.onlinelibrary.wiley.com/doi/epdf/10.1002/dad2.70149">LINK</a></strong></p>
+<p>As part of publicising this research we engaged with multiple public and patient groups. Including <a href="https://sheffield.ac.uk/neuroscience-institute/news/neurofest-2025-bringing-neuroscience-life">NeuroFeST 2025</a>, where people could play the <a href="https://jordanmagnuson.itch.io/loneliness">Loneliness</a> game, made by <a href="https://www.southampton.ac.uk/people/65s2vp/mr-jordan-magnuson">Jordan Magnuson</a>, use our <a href="https://lonelinessapp-fequwtuohmagjcxrvm7tpu.streamlit.app/">NLP app</a> to categorise their feelings and impressions after playing the game, and hear more about the results.</p>
+<div class="figure">
+<img src="/images/NeuroFest1.jpeg" alt="" />
+<p class="caption">NeuroFest 2025</p>
+</div>
+</div>

@@ -1,0 +1,57 @@
+---
+title: "Loneliness and Social Isolation in Dementia"
+author: "Nemanja Vaci"
+date: "2025-07-30"
+output: html_document
+---
+
+## Loneliness and Social Isolation
+
+Loneliness and social isolation are increasingly common in today’s hyperconnected yet emotionally disconnected world. As our lives become more globalised and digitally distracted, many people find themselves feeling alone. We know that both loneliness and isolation increase the risk of developing mental health conditions, including dementia. But what we still don’t fully understand is their role after diagnosis: do they actually influence how quickly dementia progresses? </br>
+
+Motivated by this question, my PhD student [James A. C. Myers](https://www.linkedin.com/in/jamesacmyers/) set out to investigate whether feeling lonely or being socially isolated could accelerate cognitive decline in people already living with dementia. </br>
+
+## Clinical notes and NLP
+
+To explore this question, we turned to the unstructured text in electronic health records. These clinical notes frequently capture patients’ emotional and social experiences, details that are typically only available in small, prospective studies, and rarely at such scale or nuance. We developed and trained natural language processing (NLP) models capable of automatically identifying mentions of loneliness and social isolation across more than 6 million medical documents. This enabled us to uncover subtle patterns in how these experiences are described by patients and recorded by clinicians, and crucially, to link them to objective measures of cognitive performance over time. </br></br>
+
+![Example of sentences and their categories](/images/Sentences.PNG)
+</br></br>
+
+__The NLP model worked in two stages:__ </br>
+
+Pattern Matching: We scanned millions of sentences using keywords and phrases related to loneliness and isolation—such as “feeling lonely,” “lives alone,” or “socially withdrawn.” </br>
+
+Contextual Classification: Next, we used a sentence transformer model to classify whether those mentions were genuinely meaningful (e.g., “Patient reports feeling lonely and isolated at home”) or simply unrelated uses of similar language (e.g., “isolated incident” or “patient is alone in the room”).
+
+Once validated, we deployed it across over 6 million clinical documents, enabling us to quantify social disconnection in a way that had never been done before.
+
+## Cognitive trajectories
+
+To capture non-linear changes in cognition across the disease course, James modelled repetead MoCA scores using generalized additive mixed models (GAMMs) and Linear mixed-effect models (LMERs).
+
+The key findings were:
+
+Loneliness was associated with consistently lower cognitive scores throughout the disease. Patients who reported loneliness had MoCA scores that were, on average, 0.83 points lower at diagnosis and remained lower across time.
+
+Social isolation was linked to a faster rate of cognitive decline—particularly in the 6 months leading up to diagnosis. Isolated patients showed a steeper drop in cognition before diagnosis, with MoCA scores averaging 0.69 points lower at the time of diagnosis.
+
+These findings suggest that both loneliness and social isolation not only co-occur with dementia but may influence how quickly the disease progresses—highlighting their importance as potential intervention targets in clinical care.
+
+![Cognitive trajectories over the course of disease](/images/dementiaProg.png)
+
+## Implications for clinical care
+
+Monitoring for loneliness and isolation could help identify patients at risk of rapid cognitive deterioration.
+
+These factors could serve as early warning signs, prompting closer cognitive follow-up or earlier support interventions.
+
+The results also strengthen the case for social prescribing and psychosocial interventions (e.g. befriending, group activities, community support) as part of dementia care pathways.
+
+
+Here is the link to the published paper, ENJOY: __[LINK](https://alz-journals.onlinelibrary.wiley.com/doi/epdf/10.1002/dad2.70149)__
+
+
+As part of publicising this research we engaged with multiple public and patient groups. Including [NeuroFeST 2025](https://sheffield.ac.uk/neuroscience-institute/news/neurofest-2025-bringing-neuroscience-life), where people could play the [Loneliness](https://jordanmagnuson.itch.io/loneliness) game, made by [Jordan Magnuson](https://www.southampton.ac.uk/people/65s2vp/mr-jordan-magnuson), use our [NLP app](https://lonelinessapp-fequwtuohmagjcxrvm7tpu.streamlit.app/) to categorise their feelings and impressions after playing the game, and hear more about the results. 
+
+![NeuroFest 2025](/images/NeuroFest1.jpeg)
