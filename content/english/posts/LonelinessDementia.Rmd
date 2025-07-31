@@ -15,7 +15,7 @@ Motivated by this question, my PhD student [James A. C. Myers](https://www.linke
 
 To explore this question, we turned to the unstructured text in electronic health records. These clinical notes frequently capture patients’ emotional and social experiences, details that are typically only available in small, prospective studies, and rarely at such scale or nuance. We developed and trained natural language processing (NLP) models capable of automatically identifying mentions of loneliness and social isolation across more than 6 million medical documents. This enabled us to uncover subtle patterns in how these experiences are described by patients and recorded by clinicians, and crucially, to link them to objective measures of cognitive performance over time. </br></br>
 
-![Example of sentences and their categories](/images/Sentences.PNG)
+![Example of sentences and their categories](/images/Sentences.PNG){width=50%}
 </br></br>
 
 __The NLP model worked in two stages:__ </br>
