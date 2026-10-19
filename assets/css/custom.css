@@ -63,6 +63,25 @@
   opacity: 0.68;
 }
 
+/* Longer, wrapping description under a person's role - used where a short role
+   line cannot carry the point (e.g. a completed student's outcomes). */
+.person .detail {
+  display: block;
+  font-size: 0.79rem;
+  line-height: 1.4;
+  opacity: 0.55;
+  margin-top: 0.2rem;
+}
+
+/* Evidence note attached to an individual publication entry. */
+.post-content li .note {
+  display: block;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  opacity: 0.62;
+  margin-top: 0.15rem;
+}
+
 html[data-theme='dark'] .person .avatar {
   background: rgba(88, 166, 255, 0.13);
   color: #79c0ff;

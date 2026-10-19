@@ -56,6 +56,25 @@ title: Current and previous students
   </div>
 </div>
 
+## DClinPsy supervision
+
+<div class="people">
+  <div class="person">
+    <div class="avatar" aria-hidden="true">AP</div>
+    <div class="meta">
+      <span class="name">Agatha Payne</span>
+      <span class="role">DClinPsy &middot; completed 2026</span>
+    </div>
+  </div>
+  <div class="person">
+    <div class="avatar" aria-hidden="true">LS</div>
+    <div class="meta">
+      <span class="name">Lydia Sherlock</span>
+      <span class="role">DClinPsy &middot; in progress</span>
+    </div>
+  </div>
+</div>
+
 ## Former PhD students
 
 <div class="people">
@@ -63,7 +82,15 @@ title: Current and previous students
     <div class="avatar" aria-hidden="true">JM</div>
     <div class="meta">
       <a class="name" href="https://www.york.ac.uk/health-sciences/people/james-myers/">James Myers</a>
-      <span class="role">PhD (Sheffield) &middot; now at York</span>
+      <span class="role">PhD 2025 (Sheffield) &middot; now at York</span>
+      <span class="detail">Completed within the funded period. Published Myers et al. (2025) as senior author, and secured a postdoctoral research associate post at the University of York before submitting.</span>
+    </div>
+  </div>
+  <div class="person">
+    <div class="avatar" aria-hidden="true">AO</div>
+    <div class="meta">
+      <span class="name">Amy Otter</span>
+      <span class="role">PhD &middot; submitted 2025</span>
     </div>
   </div>
 </div>
