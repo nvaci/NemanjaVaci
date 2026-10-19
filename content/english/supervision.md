@@ -83,7 +83,7 @@ title: Current and previous students
     <div class="meta">
       <a class="name" href="https://www.york.ac.uk/health-sciences/people/james-myers/">James Myers</a>
       <span class="role">PhD 2025 (Sheffield) &middot; now at York</span>
-      <span class="detail">Completed within the funded period. Published Myers et al. (2025) as senior author, and secured a postdoctoral research associate post at the University of York before submitting.</span>
+      <span class="detail">Completed within the funded period, and published Myers et al. (2025) as first author.</span>
     </div>
   </div>
   <div class="person">
