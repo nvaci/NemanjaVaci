@@ -1,5 +1,7 @@
 ---
 author: Hugo Authors
+title: "Nemanja Vaci"
+description: "Lecturer in Psychology at the University of Sheffield, researching expertise and cognitive ageing, and using health records and clinical NLP to study dementia."
 ---
 
 <!--

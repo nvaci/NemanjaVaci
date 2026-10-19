@@ -1,13 +1,8 @@
 <head>
-  <title>
-    {{ .Site.Params.author }}{{ with .Title }}
-      |
-      {{ . }}
-
-
-    {{ end }}
-
-  </title>
+  {{/* LOCAL FIX: the stock theme emitted a whitespace-padded title and, once a
+       home title exists for Open Graph, would render "Nemanja Vaci | Nemanja
+       Vaci" on the homepage. This keeps other pages visually identical. */}}
+  <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Site.Params.author }}{{ with .Title }} | {{ . }}{{ end }}{{ end }}</title>
 
   <!-- Meta -->
   <meta charset="utf-8" />
@@ -111,10 +106,13 @@
 
 
   <!-- Favicons -->
-  <link rel="shortcut icon" href="{{ .Site.Params.favicon | relURL }}favicon.ico" type="image/x-icon" />
-  <link rel="apple-touch-icon" sizes="180x180" href="{{ .Site.Params.favicon | relURL }}apple-touch-icon.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="{{ .Site.Params.favicon | relURL }}favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="{{ .Site.Params.favicon | relURL }}favicon-16x16.png" />
+  {{/* LOCAL FIX: the stock theme treats Params.favicon as a directory and
+       appends filenames, which produced href=".../favicon.pngfavicon.ico" and
+       four 404s. Our Params.favicon is the file itself - reference it directly. */}}
+  {{ with .Site.Params.favicon }}
+    <link rel="icon" type="image/png" href="{{ . | relURL }}" />
+    <link rel="apple-touch-icon" href="{{ . | relURL }}" />
+  {{ end }}
 
   <link rel="canonical" href="{{ .RelPermalink }}" />
 
@@ -192,15 +190,10 @@
 
 
   <!-- Open Graph -->
-  {{- if isset .Site.Taxonomies "series" }}
-    {{- if not (eq (len .Site.Taxonomies.series) 0) -}}
-      {{ template "_internal/opengraph.html" . }}
-
-
-    {{- end -}}
-
-
-  {{- end }}
+  {{/* LOCAL FIX: the stock theme only emits Open Graph when the "series"
+       taxonomy is non-empty. It is empty on this site, so no og: tags were
+       emitted at all and LinkedIn/Slack previews were bare. Emit them always. */}}
+  {{ template "_internal/opengraph.html" . }}
 
 
   <!-- Schema.org-->

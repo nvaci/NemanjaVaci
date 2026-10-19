@@ -1,0 +1,8 @@
+# Netlify redirects.
+#
+# The homepage feed no longer includes the 'Advanced Stats Course' section
+# (mainSections in config/_default/params.toml), so the home list is short
+# enough to fit on one page and Hugo stops generating /page/2/ ... /page/5/.
+# Those URLs were live and may be indexed, so send them to the homepage rather
+# than 404. Section pagination lives under /<section>/page/N/ and is unaffected.
+/page/*  /  301

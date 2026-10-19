@@ -3,13 +3,14 @@ title = "Nemanja Vaci"
 author = "Nemanja Vaci"
 #copyright = "2020-2021"
 profilePicture = "images/image17.png"
-keywords = ""
+description = "Lecturer in Psychology at the University of Sheffield, researching expertise and cognitive ageing, and using health records and clinical NLP to study dementia."
+keywords = "Nemanja Vaci, expertise, cognitive ageing, dementia, electronic health records, clinical NLP, chess, psychology, University of Sheffield"
 favicon = "favicons/favicon.png"
 # example ["css/custom.css"]
 customCss = []
 # example ["js/custom.js"]
 customJs = [] 
-mainSections = ["posts",'Advanced Stats Course','projects']
+mainSections = ["posts", "projects"]
 images = ["images/site-feature-image.png"]
 doNotLoadAnimations = false
 # Google Fonts
@@ -49,9 +50,14 @@ title = "GitHub"
 url = "https://github.com/nvaci"
 
 [[socialIcons]]
-icon = "fab fa-twitter"
-title = "Twitter"
-url = "https://twitter.com/nemanja_vaci"
+icon = "fas fa-graduation-cap"
+title = "Google Scholar"
+url = "https://scholar.google.co.uk/citations?user=AvB8gq0AAAAJ&hl=en"
+
+[[socialIcons]]
+icon = "fab fa-orcid"
+title = "ORCID"
+url = "https://orcid.org/0000-0002-8094-0902"
 
 [[socialIcons]]
 icon = "fas fa-envelope"
