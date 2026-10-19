@@ -1,4 +1,10 @@
   [[main]]
+  name = "Publications"
+  weight = 150
+  identifier = "publications"
+  url = "/publications/"
+
+  [[main]]
   name = "Posts"
   weight = 200
   identifier = "posts"
