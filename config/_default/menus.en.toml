@@ -5,6 +5,12 @@
   url = "/publications/"
 
   [[main]]
+  name = "Talks"
+  weight = 175
+  identifier = "talks"
+  url = "/talks/"
+
+  [[main]]
   name = "Posts"
   weight = 200
   identifier = "posts"
