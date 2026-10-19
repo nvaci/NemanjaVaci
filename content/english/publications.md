@@ -16,7 +16,6 @@ see [Google Scholar](https://scholar.google.co.uk/citations?user=AvB8gq0AAAAJ&hl
 
 ## 2025
 
-- J A C Myers, **N Vaci**, D M Wilcock. **Integrating natural language processing to assess effect of loneliness and social isolation on cognitive decline in dementia** *Alzheimer's & Dementia*. [doi](https://doi.org/10.1002/alz70861_108098)
 - J Kwon, L Schoutens, M Burden, C Colam, S Zhao, B Nezafat Maldonado, E Blundell, A Krywonos, J Jiang, M Karagiannidou, C Jindra, **N Vaci**, N Roberts, R Wittenberg, M Knapp, A Y Castro Sanchez, E Roncancio‐Diaz, M Potashman, R Thompson, R Handels, J Wolstenholme, A M Gray, F Landeiro. **Systematic review of health economic models for assessment and diagnosis of dementia** *Alzheimer's & Dementia: Behavior & Socioeconomics of Aging*. [doi](https://doi.org/10.1002/bsa3.70027)
 - F Marmolejo-Ramos, **N Vaci**, F Reali, P Milin. **The interplay of sensory and motoric information on processing emotions in narrative texts** *Journal of Cultural Cognitive Science*. [doi](https://doi.org/10.1007/s41809-025-00171-z)
 - J A C Myers, T Stafford, I Koychev, R Perneczky, O Bandmann, **N Vaci**. **Loneliness, social isolation, and effects on cognitive decline in patients with dementia: A retrospective cohort study using natural language processing** *Alzheimer's & Dementia: Diagnosis, Assessment & Disease Monitoring*. [doi](https://doi.org/10.1002/dad2.70149)
