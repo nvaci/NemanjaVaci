@@ -14,8 +14,6 @@ My publication list is on the [publications page](/publications/), and is kept c
 
 For most of the publications, I share my data and R code using [OSF](https://osf.io/hvgb6).
 
-I am also a chair of Natural Language Processing Special Interest Group run by [the Deep Dementia Phenotyping (DEMON) Network](https://demondementia.com/about/) 
-
 If you are uncertain how to pronounce my name, press listen button on the [google translate link](https://translate.google.co.uk/?sl=sr&tl=en&text=Nemanja&op=translate) or listen [Manchester United fans](https://youtu.be/9cK1MkdyPDA) singing my name
 
 
