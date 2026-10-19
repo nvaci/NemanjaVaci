@@ -7,7 +7,7 @@ description = "Lecturer in Psychology at the University of Sheffield, researchin
 keywords = "Nemanja Vaci, expertise, cognitive ageing, dementia, electronic health records, clinical NLP, chess, psychology, University of Sheffield"
 favicon = "favicons/favicon.png"
 # example ["css/custom.css"]
-customCss = []
+customCss = ["css/custom.css"]
 # example ["js/custom.js"]
 customJs = [] 
 mainSections = ["posts", "projects"]

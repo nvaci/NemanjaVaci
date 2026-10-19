@@ -1,0 +1,74 @@
+/* People grid for the supervision page.
+   Loaded via params.toml customCss -> assets/css/custom.css. The theme reads it
+   with resources.Get, so it must live under assets/, NOT static/. */
+
+.people {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+  gap: 0.85rem 1.5rem;
+  margin: 0.75rem 0 1.9rem;
+}
+
+.person {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 0;
+}
+
+/* Monogram avatar. Initials in a circle, tinted with the link accent.
+   Deliberately decorative: the name is right next to it, so the badge carries
+   aria-hidden and is skipped by screen readers. */
+.person .avatar {
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+  background: rgba(3, 102, 215, 0.1);
+  color: #0366d7;
+  border: 1px solid rgba(3, 102, 215, 0.2);
+  overflow: hidden;
+}
+
+/* Drop-in support for a real photo when someone consents to one: give the
+   avatar an <img> instead of initials and it is cropped to the same circle.
+   Unused today - the user chose initials for everyone. */
+.person .avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.person .meta {
+  min-width: 0;
+}
+
+.person .name {
+  display: block;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.person .role {
+  display: block;
+  font-size: 0.83rem;
+  line-height: 1.35;
+  opacity: 0.68;
+}
+
+html[data-theme='dark'] .person .avatar {
+  background: rgba(88, 166, 255, 0.13);
+  color: #79c0ff;
+  border-color: rgba(88, 166, 255, 0.26);
+}
+
+@media (max-width: 600px) {
+  .people { grid-template-columns: 1fr; }
+}
