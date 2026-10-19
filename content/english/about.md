@@ -6,9 +6,13 @@ title: About me
 
 I am a Lecturer in Psychology at the University of Sheffield, and Director of Postgraduate Taught in the School of Psychology until September 2028, where I run the MSc Psychological Research Methods and MSc Cognitive Neuroscience programmes.
 
-I am interested how people develop their knowledge and skill over the lifetime. My research focuses on the investigation of how we __learn and develop expertise__, when do we reach the peak level of performance, and how we experience age-related decline in performance. As well as factors that relate to cognitive decline in the case of age-related diseases, such as __dementias__. I use large and passively collected data: chess, NBA, and football records in expertise research and electronic health records (EHRs) in clinical research.
+I study how performance and cognition change over a lifetime: how we __learn and develop expertise__, when in a career peak performance arrives, and how we experience age-related decline. I ask this of data that already exists — the long careers of chess, basketball and football players, and the clinical record of the NHS.
 
-Alongside this, I run a service evaluation of social-isolation and loneliness screening at the Working Age Memory Clinic (Sheffield Teaching Hospitals), and I am a co-investigator on the BACP-funded SEAM-10 pilot, led by Dr Emma Broglia, which runs across UK and US university counselling services.
+In expertise research, I use those datasets to test how practice, cognitive ability and environment interact across a career, and how superhuman machine analysis has changed the way elite humans play. In dementia research, I use electronic health records and clinical natural language processing — across millions of NHS clinical records — to study how the disease progresses, how it is treated, and who is at risk, including how loneliness and social isolation shape the trajectory after diagnosis.
+
+The two strands are less separate than they look. I learn a great deal from carrying methods between them: causal methods developed in clinical work I test on skill development, and what that testing teaches me about how and when an effect really holds goes back into the clinic with me.
+
+That applied side is now a service evaluation of social-isolation and loneliness screening at the Working Age Memory Clinic (Sheffield Teaching Hospitals), and the BACP-funded SEAM-10 pilot, led by Dr Emma Broglia, which runs across UK and US university counselling services.
 
 My publication list is on the [publications page](/publications/), and is kept current on [Google Scholar](https://scholar.google.co.uk/citations?user=AvB8gq0AAAAJ&hl=en) and [ORCID](https://orcid.org/0000-0002-8094-0902).
 
